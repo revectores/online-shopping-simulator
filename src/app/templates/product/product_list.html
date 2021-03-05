@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>网购模拟系统</title>
+    <base href="../../" target="_blank">
+    <link rel="stylesheet" href="static/style/include/bootstrap.min.css">
+    <link rel="stylesheet" href="static/style/product_list.css">
+    <style>
+    </style>
+</head>
+
+<body>
+    <div id="app">
+      <div class="container">
+        <div class="row mt-4 mb-4">
+          <h2>三清山</h2>
+        </div>
+
+        <div class="d-flex flex-row flex-wrap">
+              <div class="product-box m-3">
+                <div class="img-box">
+                  <img src="static/image/三清山板栗.png" />
+                </div>
+                <p class="product_name"><a href="">三清山板栗</a></p>
+                <p>
+                  <span class="product_attr price">价格: 20.9</span>
+                  <span class="product_attr sales">销量: 6000</span>
+                </p>
+              </div>
+
+              <div class="product-box m-3">
+                <div class="img-box">
+                  <img src="static/image/三清山葛根粉.jpg" />
+                </div>
+                <p class="product_name"><a href="">三清山葛根粉</a></p>
+                <p>
+                  <span class="product_attr price">价格: 29.8</span>
+                  <span class="product_attr sales">销量: 1000</span>
+                </p>
+              </div>
+        </div>
+      </div>
+    </div>
+</body>
+
+<script src="static/script/include/vue.min.js"></script>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+        },
+    });
+</script>
+</html>
