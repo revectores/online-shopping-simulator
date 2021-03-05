@@ -18,22 +18,21 @@
           <div class="row">
             <div class="col-3"></div>
             <div class="col-6">
-              <form>
-                  <div class="form-group row">
-                    <div class="col-3">
-                      <label for="id">序号</label>
-                    </div>
-                    <div class="col-9">
-                      <input type="input" class="form-control" id="id">
-                    </div>
+                <div class="form-group row">
+                  <div class="col-3">
+                    <label for="id">序号</label>
                   </div>
+                  <div class="col-9">
+                    <input type="number" class="form-control" name="id" v-model="id">
+                  </div>
+                </div>
 
                 <div class="form-group row">
                   <div class="col-3">
                     <label for="age">年龄</label>
                   </div>
                   <div class="col-9">
-                    <input type="input" class="form-control" id="age">
+                    <input type="number" class="form-control" name="age" v-model="age">
                   </div>
                 </div>
 
@@ -42,14 +41,13 @@
                     <label for="address">居住地</label>
                   </div>
                   <div class="col-9">
-                    <input type="input" class="form-control" id="address">
+                    <input type="input" class="form-control" name="address" v-model="address">
                   </div>
                 </div>
 
                 <div class="form-group row justify-content-center">
-                    <button type="submit" class="btn btn-primary">确认</button>
+                  <button class="btn btn-primary" v-on:click="login">确认</button>
                 </div>
-              </form>
             </div>
             <div class="col-3"></div>
           </div>
@@ -61,9 +59,34 @@
 <script src="static/script/include/vue.min.js"></script>
 <script>
     var app = new Vue({
-        el: '#app',
-        data: {
-        },
+      el: '#app',
+      data: {
+        id: '',
+        age: '',
+        address: ''
+      },
+      methods: {
+        login: function(){
+          const xhr = new XMLHttpRequest();
+          xhr.open("POST", '../api/user/login', false);
+          xhr.setRequestHeader('content-type', 'application/json');
+
+          xhr.onload = () => {
+            let res = JSON.parse(xhr.response);
+            if (res.code === 0){
+              open('/', '_self');
+            } else {
+              alert(res.msg);
+            }
+          }
+
+          xhr.send(JSON.stringify({
+            "id":      parseInt(this.id),
+            "age":     parseInt(this.age),
+            "address": this.address
+          }));
+        }
+      }
     });
 </script>
 </html>
