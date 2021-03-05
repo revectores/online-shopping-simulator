@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "region_id": 1,
+    "category_id": 1,
+    "name": "三清山板栗"
+  },
+  {
+    "id": 2,
+    "region_id": 1,
+    "category_id": 2,
+    "name": "三清山葛根粉"
+  },
+  {
+    "id": 3,
+    "region_id": 2,
+    "category_id": 1,
+    "name": "龙虎山板栗"
+  },
+  {
+    "id": 4,
+    "region_id": 2,
+    "category_id": 2,
+    "name": "龙虎山葛根粉"
+  }
+]
