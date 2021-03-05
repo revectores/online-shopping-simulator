@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>网购模拟系统</title>
+    <base href="../../" target="_blank">
+    <link rel="stylesheet" href="static/style/include/bootstrap.min.css" crossorigin="anonymous">
+</head>
+
+<body>
+    <div id="app">
+        <div class="container">
+
+          <div class="regions">
+            <div class="row mt-4 mb-4">
+              <h2>地区</h2>
+            </div>
+            <div class="row mt-2 mb-2">
+              <button type="button" class="btn btn-link">三清山</button>
+            </div>
+            <div class="row mt-2 mb-2">
+              <button type="button" class="btn btn-link">龙虎山</button>
+            </div>
+          </div>
+
+          <br/><br/>
+          
+          <div class="products">
+            <div class="row mt-4 mb-4">
+              <h2>产品</h2>
+            </div>
+            <div class="row mt-2 mb-2">
+              <button type="button" class="btn btn-link">板栗</button>
+            </div>
+            <div class="row mt-2 mb-2">
+              <button type="button" class="btn btn-link">葛根粉</button>
+            </div>
+          </div>
+        </div>
+    </div>
+</body>
+
+<script src="static/script/include/vue.min.js"></script>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+        },
+    });
+</script>
+</html>
