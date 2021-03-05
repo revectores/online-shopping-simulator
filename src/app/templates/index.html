@@ -16,11 +16,11 @@
             <div class="row mt-4 mb-4">
               <h2>地区</h2>
             </div>
-            <div class="row mt-2 mb-2">
-              <button type="button" class="btn btn-link">三清山</button>
-            </div>
-            <div class="row mt-2 mb-2">
-              <button type="button" class="btn btn-link">龙虎山</button>
+
+            <div v-for="region in regions">
+              <div class="row mt-2 mb-2">
+                <button type="button" class="btn btn-link">{{ region.name }}</button>
+              </div>
             </div>
           </div>
 
@@ -30,23 +30,31 @@
             <div class="row mt-4 mb-4">
               <h2>产品</h2>
             </div>
-            <div class="row mt-2 mb-2">
-              <button type="button" class="btn btn-link">板栗</button>
-            </div>
-            <div class="row mt-2 mb-2">
-              <button type="button" class="btn btn-link">葛根粉</button>
+
+            <div v-for="category in categories">
+              <div class="row mt-2 mb-2">
+                <button type="button" class="btn btn-link">{{ category.name }}</button>
+              </div>
             </div>
           </div>
+          
         </div>
     </div>
 </body>
 
 <script src="static/script/include/vue.min.js"></script>
+<script src="static/script/utils/req.js"></script>
 <script>
-    var app = new Vue({
-        el: '#app',
-        data: {
-        },
-    });
+  var app = new Vue({
+    el: '#app',
+    data: {
+      regions: {},
+      categories: {}
+    },
+    created: function() {
+      this.regions = sync_get_obj('../api/product/product_region');
+      this.categories = sync_get_obj('../api/product/product_category');
+    }
+  });
 </script>
 </html>
