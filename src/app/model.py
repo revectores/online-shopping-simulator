@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
 from pprint import pprint
-from config import Config
+from app.config import Config
 
 db = peewee.SqliteDatabase(Config.SQLITE3_DATABASE_PATH)
 
