@@ -10,13 +10,13 @@ product = Blueprint('product', __name__)
 product_api = Blueprint('product_api', __name__)
 
 
-@product.route('/product_list/')
+@product.route('/list/')
 def html_product_list():
     return send_from_directory('templates/product/', 'product_list.html')
 
 
-@product.route('/product_detail')
-def html_product_detail():
+@product.route('/<int:product_id>')
+def html_product_detail(product_id):
     return send_from_directory('templates/product', 'product_detail.html')
 
 
