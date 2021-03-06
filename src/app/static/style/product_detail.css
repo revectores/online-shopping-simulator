@@ -36,8 +36,18 @@
 	margin-left: 20px;
 }
 
+.description-box {
+	margin-top: 35px;
+	height: 250px;
+}
+
 .description {
 	font-size: 14px;
+	line-height: 30px;
+}
+
+.purchase-button {
+	margin-top: 10px;
 }
 
 .preview-box-container {
