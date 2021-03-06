@@ -44,9 +44,14 @@ def get_product_category():
     return suc(models_to_dict(ProductCategory.select()))
 
 
+@product_api.route('/<int:product_id>')
+def product_detail(product_id):
+    return suc(model_to_dict(Product.get(product_id)))
+
+
 @product_api.route('/image/<int:product_id>')
-def get_product_image(product_id):
-    return suc(models_to_dict(ProductImage.select().where(ProductImage.product_id == product_id)))
+def get_product_images(product_id):
+    return suc([p.filename for p in ProductImage.select().where(ProductImage.product_id == product_id)])
 
 
 @product_api.route('/repr_image/<int:product_id>')
