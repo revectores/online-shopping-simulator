@@ -12,12 +12,12 @@ product_api = Blueprint('product_api', __name__)
 
 @product.route('/list/')
 def html_product_list():
-    return send_from_directory('templates/product/', 'product_list.html')
+    return send_from_directory('templates/product/', 'list.html')
 
 
 @product.route('/<int:product_id>')
 def html_product_detail(product_id):
-    return send_from_directory('templates/product', 'product_detail.html')
+    return send_from_directory('templates/product', 'detail.html')
 
 
 @product_api.route('/product')
