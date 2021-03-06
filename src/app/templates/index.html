@@ -19,7 +19,7 @@
 
             <div v-for="region in regions">
               <div class="row mt-2 mb-2">
-                <button type="button" class="btn btn-link">{{ region.name }}</button>
+                <a :href="'product/list?region_id=' + region.id">{{ region.name }}</a>
               </div>
             </div>
           </div>
@@ -33,7 +33,7 @@
 
             <div v-for="category in categories">
               <div class="row mt-2 mb-2">
-                <button type="button" class="btn btn-link">{{ category.name }}</button>
+                <a :href="'product/list?category_id=' + category.id">{{ category.name }}</a>
               </div>
             </div>
           </div>
@@ -52,8 +52,8 @@
       categories: {}
     },
     created: function() {
-      this.regions = sync_get_obj('../api/product/region');
-      this.categories = sync_get_obj('../api/product/category');
+      this.regions = sync_get_data('../api/product/region');
+      this.categories = sync_get_data('../api/product/category');
     }
   });
 </script>

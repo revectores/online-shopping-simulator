@@ -40,7 +40,7 @@
             <div class="description-box">
               <p class="description">{{ product.description }}</p>
             </div>
-            <button type="button" class="purchase-button btn btn-warning col-12"> 购买 </button>
+            <button id="purchase-button" type="button" class="btn btn-warning col-12" v-on:click="purchase(product.id)"> 购买 </button>
           </div>
           <div class="col-1"></div>
         </div>
@@ -62,12 +62,15 @@
     methods: {
       switch_image: function(image_name) {
         this.cur_image_name = image_name;
+      },
+      purchase: function(product_id){
+        sync_post('../api/product/purchase/' + product_id);
       }
     },
     created: function() {
       let product_id = window.location.pathname.split('/').pop();
-      this.product = sync_get_obj('../api/product/' + product_id);
-      this.image_names = sync_get_obj('../api/product/image/' + product_id);
+      this.product = sync_get_data('../api/product/' + product_id);
+      this.image_names = sync_get_data('../api/product/image/' + product_id);
       this.cur_image_name = this.image_names[0];
     }
   });

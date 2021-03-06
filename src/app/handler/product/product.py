@@ -1,7 +1,10 @@
+from datetime import datetime, timedelta
+
 from flask import Blueprint, send_from_directory, jsonify, request
 from playhouse.shortcuts import dict_to_model, model_to_dict
 
 from app.model import Product, ProductRegion, ProductCategory, ProductImage
+from app.model import QueryLog, DetailLog, PurchaseLog
 from app.utils import models_to_dict
 from app.resp import suc, err
 
@@ -41,6 +44,7 @@ def get_product_region():
 
 @product_api.route('/category')
 def get_product_category():
+
     return suc(models_to_dict(ProductCategory.select()))
 
 
@@ -57,3 +61,13 @@ def get_product_images(product_id):
 @product_api.route('/repr_image/<int:product_id>')
 def get_product_repr_image(product_id):
     return suc(ProductImage.get(ProductImage.product_id == product_id).filename)
+
+
+@product_api.route('/purchase/<int:product_id>', methods=["POST"])
+def purchase(product_id):
+    PurchaseLog.insert({
+        'user_id':  1,
+        'product_id': product_id,
+        'datetime': datetime.now()
+    }).execute()
+    return suc()

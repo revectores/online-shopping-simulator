@@ -21,16 +21,6 @@ class UserLogType(Enum):
     LOGOUT = 1
 
 
-class QueryLogType(Enum):
-    ENTER = 0
-    BACK = 1
-
-
-class DetailLogType(Enum):
-    ENTER = 0
-    BACK = 1
-
-
 class ProductRegion(peewee.Model):
     id       = peewee.IntegerField(primary_key=True)
     name     = peewee.CharField()
@@ -94,7 +84,7 @@ class UserLog(peewee.Model):
 
 class QueryLog(peewee.Model):
     id        = peewee.IntegerField(primary_key=True)
-    type      = peewee.IntegerField()
+    user_id   = peewee.IntegerField()
     query     = peewee.CharField()
     datetime  = peewee.DateTimeField()
 
@@ -105,7 +95,7 @@ class QueryLog(peewee.Model):
 
 class DetailLog(peewee.Model):
     id         = peewee.IntegerField(primary_key=True)
-    type       = peewee.IntegerField()
+    user_id    = peewee.IntegerField()
     product_id = peewee.IntegerField()
     datetime   = peewee.DateTimeField()
 
@@ -116,6 +106,7 @@ class DetailLog(peewee.Model):
 
 class PurchaseLog(peewee.Model):
     id         = peewee.IntegerField(primary_key=True)
+    user_id    = peewee.IntegerField()
     product_id = peewee.IntegerField()
     datetime   = peewee.DateTimeField()
 

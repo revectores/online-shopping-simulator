@@ -23,7 +23,7 @@
             <div class="img-box">
               <img :src="'static/image/' + product.id + '/' + product.repr_image_name" />
             </div>
-            <p class="product_name"><a href=""> {{ product.name }} </a></p>
+            <p class="product_name"><a :href="'product/' + product.id"> {{ product.name }} </a></p>
             <p>
               <span class="product_attr price">价格: {{ product.price }}</span>
               <span class="product_attr sales">销量: {{ product.sales }}</span>
@@ -54,13 +54,13 @@
 
       console.log(primary_query_key, primary_query_value);
 
-      this.products = sync_get_obj('../api/product/product?' + query);
-      this.title = sync_get_obj('../api/product/' + primary_query_key)[primary_query_value].name;
+      this.products = sync_get_data('../api/product/product?' + query);
+      this.title = sync_get_data('../api/product/' + primary_query_key)[primary_query_value].name;
 
       // Since the count of products per query is at most 2 in requirements, (and the system is running locally)
       // we simply iterate each product_id in front-end to simplify design.
       for (let i in this.products) {
-        this.products[i].repr_image_name = sync_get_obj('../api/product/repr_image/' + i);
+        this.products[i].repr_image_name = sync_get_data('../api/product/repr_image/' + i);
         console.log(this.products[i].repr_image_name);
       }
     }
