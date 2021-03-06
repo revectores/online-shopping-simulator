@@ -7,13 +7,34 @@
     <base href="../../" target="_blank">
     <link rel="stylesheet" href="static/style/include/bootstrap.min.css">
     <link rel="stylesheet" href="static/style/product_detail.css">
+    <link rel="stylesheet" href="static/style/header.css">
     <style>
     </style>
 </head>
 
 <body>
+  <div class="container">
+    <header class="row mt-4 mb-4">
+      <div class="col-10"></div>
+      <div class="col-1"><a id="logout">退出登陆</a></div>
+      <div class="col-1"></div>
+    </header>
+  </div>
+
     <div id="app">
+
+<!--  
+      <div class="row">
+        <div class="col-2"></div>
+        <div class="alert alert-success col-8" role="alert">
+          This is a success alert—check it out!
+        </div>
+        <div class="col-2"></div>
+      </div>
+ -->
+
       <div class="container">
+
         <div class="row mt-5">
           <div class="col-1"></div>
           <div class="col-5">
@@ -44,13 +65,13 @@
           </div>
           <div class="col-1"></div>
         </div>
-
       </div>
     </div>
 </body>
 
 <script src="static/script/include/vue.min.js"></script>
 <script src="static/script/utils/req.js"></script>
+<script src="static/script/header.js"></script>
 <script>
   var app = new Vue({
     el: '#app',
@@ -64,7 +85,10 @@
         this.cur_image_name = image_name;
       },
       purchase: function(product_id){
-        sync_post('../api/product/purchase/' + product_id);
+        let res = JSON.parse(sync_post('../api/product/purchase/' + product_id));
+        if (res.code === 0) {
+          alert('购买成功!');
+        } 
       }
     },
     created: function() {

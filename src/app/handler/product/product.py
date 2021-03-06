@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 
-from flask import Blueprint, send_from_directory, jsonify, request
+from flask import Blueprint, send_from_directory, jsonify, request, session, redirect, url_for
 from playhouse.shortcuts import dict_to_model, model_to_dict
 
 from app.model import QueryType
@@ -16,11 +16,17 @@ product_api = Blueprint('product_api', __name__)
 
 @product.route('/list/')
 def html_product_list():
+    if 'user_id' not in session:
+        return redirect(url_for('user.html_login'))
+
     return send_from_directory('templates/product/', 'list.html')
 
 
 @product.route('/<int:product_id>')
 def html_product_detail(product_id):
+    if 'user_id' not in session:
+        return redirect(url_for('user.html_login'))
+
     return send_from_directory('templates/product', 'detail.html')
 
 
@@ -33,7 +39,7 @@ def get_product():
 
     if region_id:
         QueryLog.insert({
-            'user_id': 1,
+            'user_id': session['user_id'],
             'query_type': QueryType.REGION.value,
             'query_id': region_id
         }).execute()
@@ -41,7 +47,7 @@ def get_product():
 
     if category_id:
         QueryLog.insert({
-            'user_id': 1,
+            'user_id': session['user_id'],
             'query_type': QueryType.CATEGORY.value,
             'query_id': category_id
         }).execute()
@@ -61,7 +67,7 @@ def get_product_category():
 @product_api.route('/<int:product_id>')
 def product_detail(product_id):
     DetailLog.insert({
-        'user_id': 1,
+        'user_id': session['user_id'],
         'product_id': product_id,
     }).execute()
 
@@ -81,7 +87,7 @@ def get_product_repr_image(product_id):
 @product_api.route('/purchase/<int:product_id>', methods=["POST"])
 def purchase(product_id):
     PurchaseLog.insert({
-        'user_id':  1,
+        'user_id':  session['user_id'],
         'product_id': product_id,
     }).execute()
     return suc()
