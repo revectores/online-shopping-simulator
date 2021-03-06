@@ -1,6 +1,7 @@
 from flask import Blueprint, send_from_directory, jsonify, request
+from playhouse.shortcuts import dict_to_model, model_to_dict
 
-from app.model import Product, ProductRegion, ProductCategory
+from app.model import Product, ProductRegion, ProductCategory, ProductImage
 from app.utils import models_to_dict
 from app.resp import suc, err
 
@@ -33,11 +34,21 @@ def get_product():
         return suc(models_to_dict(Product.select().where(Product.category_id == category_id)))
 
 
-@product_api.route('/product_region')
+@product_api.route('/region')
 def get_product_region():
     return suc(models_to_dict(ProductRegion.select()))
 
 
-@product_api.route('/product_category')
+@product_api.route('/category')
 def get_product_category():
     return suc(models_to_dict(ProductCategory.select()))
+
+
+@product_api.route('/image/<int:product_id>')
+def get_product_image(product_id):
+    return suc(models_to_dict(ProductImage.select().where(ProductImage.product_id == product_id)))
+
+
+@product_api.route('/repr_image/<int:product_id>')
+def get_product_repr_image(product_id):
+    return suc(ProductImage.get(ProductImage.product_id == product_id).filename)

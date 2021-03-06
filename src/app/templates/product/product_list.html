@@ -15,42 +15,55 @@
     <div id="app">
       <div class="container">
         <div class="row mt-4 mb-4">
-          <h2>三清山</h2>
+          <h2>{{ title }}</h2>
         </div>
 
         <div class="d-flex flex-row flex-wrap">
-              <div class="product-box m-3">
-                <div class="img-box">
-                  <img src="static/image/三清山板栗.png" />
-                </div>
-                <p class="product_name"><a href="">三清山板栗</a></p>
-                <p>
-                  <span class="product_attr price">价格: 20.9</span>
-                  <span class="product_attr sales">销量: 6000</span>
-                </p>
-              </div>
-
-              <div class="product-box m-3">
-                <div class="img-box">
-                  <img src="static/image/三清山葛根粉.jpg" />
-                </div>
-                <p class="product_name"><a href="">三清山葛根粉</a></p>
-                <p>
-                  <span class="product_attr price">价格: 29.8</span>
-                  <span class="product_attr sales">销量: 1000</span>
-                </p>
-              </div>
+          <div class="product-box m-3" v-for="product in products">
+            <div class="img-box">
+              <img :src="'static/image/' + product.id + '/' + product.repr_image_name" />
+            </div>
+            <p class="product_name"><a href=""> {{ product.name }} </a></p>
+            <p>
+              <span class="product_attr price">价格: {{ product.price }}</span>
+              <span class="product_attr sales">销量: {{ product.sales }}</span>
+            </p>
+          </div>
         </div>
+
       </div>
     </div>
 </body>
 
 <script src="static/script/include/vue.min.js"></script>
+<script src="static/script/utils/req.js"></script>
 <script>
-    var app = new Vue({
-        el: '#app',
-        data: {
-        },
-    });
+  var app = new Vue({
+    el: '#app',
+    data: {
+      title: '',
+      products: {},
+      regions: {},
+      categories: {},
+    },
+    created: function() {
+      let query = window.location.search.substr(1);
+      let primary_query = query.split('&')[0];
+      let primary_query_key   = primary_query.split('=')[0].substr(0, primary_query.indexOf('_id'));
+      let primary_query_value = primary_query.split('=')[1];
+
+      console.log(primary_query_key, primary_query_value);
+
+      this.products = sync_get_obj('../api/product/product?' + query);
+      this.title = sync_get_obj('../api/product/' + primary_query_key)[primary_query_value].name;
+
+      // Since the count of products per query is at most 2 in requirements, (and the system is running locally)
+      // we simply iterate each product_id in front-end to simplify design.
+      for (let i in this.products) {
+        this.products[i].repr_image_name = sync_get_obj('../api/product/repr_image/' + i);
+        console.log(this.products[i].repr_image_name);
+      }
+    }
+  });
 </script>
 </html>
