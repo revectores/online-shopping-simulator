@@ -26,7 +26,6 @@ def login():
 	UserLog.insert({
 		'type':     UserLogType.LOGIN.value,
 		'user_id':  new_user_id,
-		'datetime': datetime.now()
 	}).execute()
 
 	return suc()

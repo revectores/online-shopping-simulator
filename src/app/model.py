@@ -21,6 +21,11 @@ class UserLogType(Enum):
     LOGOUT = 1
 
 
+class QueryType(Enum):
+    REGION = 0
+    CATEGORY = 1
+
+
 class ProductRegion(peewee.Model):
     id       = peewee.IntegerField(primary_key=True)
     name     = peewee.CharField()
@@ -72,10 +77,10 @@ class User(peewee.Model):
 
 
 class UserLog(peewee.Model):
-    id        = peewee.IntegerField(primary_key=True)
-    type      = peewee.IntegerField()
-    user_id   = peewee.IntegerField()
-    datetime  = peewee.DateTimeField()
+    id          = peewee.IntegerField(primary_key=True)
+    type        = peewee.IntegerField()
+    user_id     = peewee.IntegerField()
+    create_time = peewee.DateTimeField(default=datetime.now)
 
     class Meta:
         database = db
@@ -83,10 +88,11 @@ class UserLog(peewee.Model):
 
 
 class QueryLog(peewee.Model):
-    id        = peewee.IntegerField(primary_key=True)
-    user_id   = peewee.IntegerField()
-    query     = peewee.CharField()
-    datetime  = peewee.DateTimeField()
+    id          = peewee.IntegerField(primary_key=True)
+    user_id     = peewee.IntegerField()
+    query_type  = peewee.IntegerField()
+    query_id    = peewee.IntegerField()
+    create_time = peewee.DateTimeField(default=datetime.now)
 
     class Meta:
         database = db
@@ -94,10 +100,10 @@ class QueryLog(peewee.Model):
 
 
 class DetailLog(peewee.Model):
-    id         = peewee.IntegerField(primary_key=True)
-    user_id    = peewee.IntegerField()
-    product_id = peewee.IntegerField()
-    datetime   = peewee.DateTimeField()
+    id          = peewee.IntegerField(primary_key=True)
+    user_id     = peewee.IntegerField()
+    product_id  = peewee.IntegerField()
+    create_time = peewee.DateTimeField(default=datetime.now)
 
     class Meta:
         database = db
@@ -105,10 +111,10 @@ class DetailLog(peewee.Model):
 
 
 class PurchaseLog(peewee.Model):
-    id         = peewee.IntegerField(primary_key=True)
-    user_id    = peewee.IntegerField()
-    product_id = peewee.IntegerField()
-    datetime   = peewee.DateTimeField()
+    id          = peewee.IntegerField(primary_key=True)
+    user_id     = peewee.IntegerField()
+    product_id  = peewee.IntegerField()
+    create_time = peewee.DateTimeField(default=datetime.now)
 
     class Meta:
         database = db

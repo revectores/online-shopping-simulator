@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 from flask import Blueprint, send_from_directory, jsonify, request
 from playhouse.shortcuts import dict_to_model, model_to_dict
 
+from app.model import QueryType
 from app.model import Product, ProductRegion, ProductCategory, ProductImage
 from app.model import QueryLog, DetailLog, PurchaseLog
 from app.utils import models_to_dict
@@ -31,9 +32,19 @@ def get_product():
     assert(region_id or category_id)
 
     if region_id:
+        QueryLog.insert({
+            'user_id': 1,
+            'query_type': QueryType.REGION.value,
+            'query_id': region_id
+        }).execute()
         return suc(models_to_dict(Product.select().where(Product.region_id == region_id)))
 
     if category_id:
+        QueryLog.insert({
+            'user_id': 1,
+            'query_type': QueryType.CATEGORY.value,
+            'query_id': category_id
+        }).execute()
         return suc(models_to_dict(Product.select().where(Product.category_id == category_id)))
 
 
@@ -44,12 +55,16 @@ def get_product_region():
 
 @product_api.route('/category')
 def get_product_category():
-
     return suc(models_to_dict(ProductCategory.select()))
 
 
 @product_api.route('/<int:product_id>')
 def product_detail(product_id):
+    DetailLog.insert({
+        'user_id': 1,
+        'product_id': product_id,
+    }).execute()
+
     return suc(model_to_dict(Product.get(product_id)))
 
 
@@ -68,6 +83,5 @@ def purchase(product_id):
     PurchaseLog.insert({
         'user_id':  1,
         'product_id': product_id,
-        'datetime': datetime.now()
     }).execute()
     return suc()
