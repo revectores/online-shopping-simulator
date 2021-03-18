@@ -1,16 +1,18 @@
+if __name__ == '__main__':
+    import sys
+    sys.path.append('..')
+
 import json
-import peewee
+import codecs
+
 from enum import Enum
-from playhouse.shortcuts import dict_to_model, model_to_dict
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
-from pprint import pprint
+import peewee
+from playhouse.shortcuts import dict_to_model, model_to_dict
 
-if __name__ == '__main__':
-    from config import Config
-else:
-    from app.config import Config
+from app.config import Config
 
 
 db = peewee.SqliteDatabase(Config.SQLITE3_DATABASE_PATH)
@@ -121,17 +123,24 @@ class PurchaseLog(peewee.Model):
         table_name = 'purchase_log'
 
 
-if __name__ == '__main__':
+def db_init():
+    def load_init_data(table_name):
+        return json.load(codecs.open(f'{Config.ROOT}/db/init/{table_name}.json', encoding='utf-8'))
+
     MODELS = [ProductRegion, ProductCategory, Product, ProductImage, User, UserLog, QueryLog, DetailLog, PurchaseLog]
     db.drop_tables(MODELS)
     db.create_tables(MODELS)
 
-    product_regions = json.load(open('db/init/product_region.json'))
-    product_categories = json.load(open('db/init/product_category.json'))
-    products = json.load(open('db/init/product.json'))
-    product_images = json.load(open('db/init/product_image.json'))
+    product_regions = load_init_data('product_region')
+    product_categories = load_init_data('product_category')
+    products = load_init_data('product')
+    product_images = load_init_data('product_image')
 
     ProductRegion.insert_many(product_regions).execute()
     ProductCategory.insert_many(product_categories).execute()
     Product.insert_many(products).execute()
     ProductImage.insert_many(product_images).execute()
+
+
+if __name__ == '__main__':
+    db_init()

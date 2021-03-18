@@ -7,6 +7,7 @@ import operator
 
 from pprint import pprint
 
+from app.config import Config
 from app.model import UserLogType, QueryType
 from app.model import ProductRegion, ProductCategory, Product, User
 from app.model import UserLog, QueryLog, DetailLog, PurchaseLog
@@ -18,7 +19,7 @@ def export(user_id=0):
     EXPORT_ALL = (user_id == 0)
     mode = 'w' if EXPORT_ALL else 'a'
 
-    with open('user.csv', mode, newline='') as user_csv:
+    with open(Config.EXPORT_PATH / 'user.csv', mode, newline='') as user_csv:
         user_query = User.select()
         if not EXPORT_ALL:
             user_query = user_query.where(User.id == user_id)
@@ -35,7 +36,7 @@ def export(user_id=0):
         writer.writerows(users)
 
 
-    with open('activity.csv', mode, newline='') as activity_csv:
+    with open(Config.EXPORT_PATH / 'activity.csv', mode, newline='') as activity_csv:
         product_regions    = {region.id: region.name for region in ProductRegion.select()}
         product_categories = {category.id: category.name for category in ProductCategory.select()}
         products           = {product.id: product.name for product in Product.select()}

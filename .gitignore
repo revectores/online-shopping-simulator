@@ -4,3 +4,6 @@ __pycache__
 *.png
 *.db
 *.csv
+src/build
+src/dist
+src/server.spec
