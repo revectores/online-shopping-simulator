@@ -112,6 +112,29 @@ class DetailLog(peewee.Model):
         table_name = 'detail_log'
 
 
+class QueryBackLog(peewee.Model):
+    id          = peewee.IntegerField(primary_key=True)
+    user_id     = peewee.IntegerField()
+    query_type  = peewee.IntegerField()
+    query_id    = peewee.IntegerField()
+    create_time = peewee.DateTimeField(default=datetime.now)
+
+    class Meta:
+        database = db
+        table_name = 'query_back_log'
+
+
+class DetailBackLog(peewee.Model):
+    id          = peewee.IntegerField(primary_key=True)
+    user_id     = peewee.IntegerField()
+    product_id  = peewee.IntegerField()
+    create_time = peewee.DateTimeField(default=datetime.now)
+
+    class Meta:
+        database = db
+        table_name = 'detail_back_log'
+
+
 class PurchaseLog(peewee.Model):
     id          = peewee.IntegerField(primary_key=True)
     user_id     = peewee.IntegerField()
@@ -127,7 +150,7 @@ def db_init():
     def load_init_data(table_name):
         return json.load(codecs.open(f'{Config.ROOT}/db/init/{table_name}.json', encoding='utf-8'))
 
-    MODELS = [ProductRegion, ProductCategory, Product, ProductImage, User, UserLog, QueryLog, DetailLog, PurchaseLog]
+    MODELS = [ProductRegion, ProductCategory, Product, ProductImage, User, UserLog, QueryLog, DetailLog, PurchaseLog, QueryBackLog, DetailBackLog]
     db.drop_tables(MODELS)
     db.create_tables(MODELS)
 

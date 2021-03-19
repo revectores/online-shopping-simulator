@@ -10,7 +10,7 @@ from pprint import pprint
 from app.config import Config
 from app.model import UserLogType, QueryType
 from app.model import ProductRegion, ProductCategory, Product, User
-from app.model import UserLog, QueryLog, DetailLog, PurchaseLog
+from app.model import UserLog, QueryLog, DetailLog, PurchaseLog, QueryBackLog, DetailBackLog
 
 from app.utils import models_to_dict
 
@@ -41,16 +41,20 @@ def export(user_id=0):
         product_categories = {category.id: category.name for category in ProductCategory.select()}
         products           = {product.id: product.name for product in Product.select()}
 
-        user_log_query     = UserLog.select()
-        query_log_query    = QueryLog.select()
-        detail_log_query   = DetailLog.select()
-        purchase_log_query = PurchaseLog.select()
+        user_log_query        = UserLog.select()
+        query_log_query       = QueryLog.select()
+        detail_log_query      = DetailLog.select()
+        purchase_log_query    = PurchaseLog.select()
+        query_back_log_query  = QueryBackLog.select()
+        detail_back_log_query = DetailBackLog.select()
 
         if not EXPORT_ALL:
             user_log_query = user_log_query.where(UserLog.user_id == user_id)
             query_log_query = query_log_query.where(QueryLog.user_id == user_id)
             detail_log_query = detail_log_query.where(DetailLog.user_id == user_id)
             purchase_log_query = purchase_log_query.where(PurchaseLog.user_id == user_id)
+            query_back_log_query = query_back_log_query.where(QueryBackLog.user_id == user_id)
+            detail_back_log_query = detail_back_log_query.where(DetailBackLog.user_id == user_id)
 
         user_logs = [[
             'log in' if user_log.type == UserLogType.LOGIN.value else 'log out',
@@ -80,13 +84,35 @@ def export(user_id=0):
             purchase_log.create_time
         ] for purchase_log in purchase_log_query]
 
+        query_back_logs = [[
+            'region back' if query_back_log.query_type == QueryType.REGION.value else 'category back',
+            query_back_log.user_id,
+            product_regions[query_back_log.query_id] if query_back_log.query_type == QueryType.REGION.value else product_categories[query_back_log.query_id],
+            query_back_log.create_time
+        ] for query_back_log in query_back_log_query]
+
+        detail_back_logs = [[
+            'detail back',
+            detail_back_log.user_id,
+            products[detail_back_log.product_id],
+            detail_back_log.create_time
+        ] for detail_back_log in detail_back_log_query]
+
         writer = csv.writer(activity_csv)
 
         if activity_csv.tell() == 0:
             writer.writerow(['type', 'user_id', 'object', 'datetime'])
 
-        logs = user_logs + query_logs + detail_logs + purchase_logs
+        logs = user_logs + query_logs + detail_logs + purchase_logs + query_back_logs + detail_back_logs
+        
         logs.sort(key=operator.itemgetter(3))
+
+        i = 0
+        while i < len(logs):
+            if logs[i-1][0] == 'detail back' and logs[i][0] in ['region', 'category']:
+                del logs[i]
+            i += 1
+
         writer.writerows(logs)
 
 

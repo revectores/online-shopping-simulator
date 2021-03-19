@@ -1,8 +1,7 @@
 .left-info-box {
-	width: 300px;
 }
 
-.img-box {
+/*.img-box {
 	max-width: 100%;
 	max-height: 100%;
 	font-size: 0;
@@ -12,33 +11,36 @@
 	text-align: center;
 	outline: 1px solid #EEE;
 }
-
+*/
 .img-box img {
-	max-height: 100%;
+/*	max-height: 100%;
 	max-width: 100%;
-	vertical-align: middle;
+*/	vertical-align: middle;
 }
 
 .product_name {
 	font-weight: bold;
-	font-size: 20px;
+	font-size: 40px;
 	margin-bottom: 0;
-	margin-top: 1em;
 }
 
 .product_attr {
-	margin-top: 5px;
-	font-size: 14px;
-	text-align: center;
+	margin-top: 15px;
+	font-size: 20px;
+}
+
+.price {
+	float: left;
 }
 
 .sales {
-	margin-left: 20px;
+	float: right;
+	margin-right: 30px;
 }
 
 .description-box {
 	margin-top: 35px;
-	height: 250px;
+	height: 310px;
 }
 
 .description {

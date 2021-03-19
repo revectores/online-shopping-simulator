@@ -2,41 +2,41 @@
   {
     "id": 1,
     "product_id": 1,
-    "filename": "三清山板栗.png"
+    "filename": "三清山板栗1.png"
   },
   {
     "id": 2,
     "product_id": 1,
-    "filename": "三清山板栗2.jpg"
+    "filename": "三清山板栗2.png"
   },
   {
     "id": 3,
     "product_id": 2,
-    "filename": "三清山葛根粉.jpg"
+    "filename": "三清山葛根粉1.png"
   },
   {
     "id": 4,
     "product_id": 2,
-    "filename": "三清山葛根粉2.jpg"
+    "filename": "三清山葛根粉2.png"
   },
   {
     "id": 5,
     "product_id": 3,
-    "filename": "龙虎山板栗.png"
+    "filename": "龙虎山板栗1.png"
   },
   {
     "id": 6,
     "product_id": 3,
-    "filename": "龙虎山板栗2.jpg"
+    "filename": "龙虎山板栗2.png"
   },
   {
     "id": 7,
     "product_id": 4,
-    "filename": "龙虎山葛根粉1.jpg"
+    "filename": "龙虎山葛根粉1.png"
   },
   {
     "id": 8,
     "product_id": 4,
-    "filename": "龙虎山葛根粉2.jpg"
+    "filename": "龙虎山葛根粉2.png"
   }
 ]

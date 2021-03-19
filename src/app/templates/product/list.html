@@ -15,9 +15,8 @@
 <body>
     <div class="container">
       <header class="row mt-4 mb-4">
-        <div class="col-10"></div>
-        <div class="col-1"><a id="logout">退出登陆</a></div>
-        <div class="col-1"></div>
+        <a id="back"><< 返回</a>
+        <a id="logout">退出登录</a>
       </header>
     </div>
 
@@ -28,13 +27,12 @@
           <h2>{{ title }}</h2>
         </div>
 
-        <div class="d-flex flex-row flex-wrap">
-          <div class="product-box m-3" v-for="product in products">
+      <div class="d-flex flex-row flex-wrap justify-content-around">
+          <div class="product-box" v-for="product in products">
             <div class="img-box">
               <img :src="'static/image/' + product.id + '/' + product.repr_image_name" />
             </div>
-            <p class="product_name"><a :href="'product/' + product.id"> {{ product.name }} </a></p>
-            <p>
+            <p class="product_name"><a target="_self" :href="'product/' + product.id"> {{ product.name }} </a></p>
               <span class="product_attr price">价格: {{ product.price }}</span>
               <span class="product_attr sales">销量: {{ product.sales }}</span>
             </p>
@@ -48,6 +46,7 @@
 <script src="static/script/include/vue.min.js"></script>
 <script src="static/script/utils/req.js"></script>
 <script src="static/script/header.js"></script>
+<script src="static/script/back.js"></script>
 <script>
   var app = new Vue({
     el: '#app',
@@ -56,6 +55,7 @@
       products: {},
       regions: {},
       categories: {},
+      rands: {},
     },
     created: function() {
       let query = window.location.search.substr(1);
@@ -67,6 +67,8 @@
 
       this.products = sync_get_data('../api/product/product?' + query);
       this.title = sync_get_data('../api/product/' + primary_query_key)[primary_query_value].name;
+      this.rands = sync_get_data('../api/user/rand');
+
 
       // Since the count of products per query is at most 2 in requirements, (and the system is running locally)
       // we simply iterate each product_id in front-end to simplify design.
@@ -74,6 +76,10 @@
         this.products[i].repr_image_name = sync_get_data('../api/product/repr_image/' + i);
         console.log(this.products[i].repr_image_name);
       }
+      this.products = Object.values(this.products);
+
+      console.log(this.rands.list[primary_query_key][primary_query_value]);
+      if (this.rands.list[primary_query_key][primary_query_value]) this.products.reverse();
     }
   });
 </script>

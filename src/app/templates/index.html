@@ -5,48 +5,52 @@
     <meta charset="UTF-8">
     <title>网购模拟系统</title>
     <base href="../../" target="_blank">
-    <link rel="stylesheet" href="static/style/include/bootstrap.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="static/style/include/bootstrap.min.css">
     <link rel="stylesheet" href="static/style/header.css">
+    <link rel="stylesheet" href="static/style/index.css">
 </head>
 
 <body>
     <div class="container">
       <header class="row mt-4 mb-4">
-        <div class="col-10"></div>
-        <div class="col-1"><a id="logout">退出登陆</a></div>
-        <div class="col-1"></div>
+        <a id="logout">退出登录</a>
       </header>
     </div>
     
     <div id="app">
         <div class="container">
-
-          <div class="regions">
-            <div class="row mt-4 mb-4">
-              <h2>地区</h2>
+          <div class="row">
+            
+            <div id="left-block" class="col-6">
+              <div v-if="rands.index.arrangement">
+                <div class="row"><h2 class="type_key">原产地</h2></div>
+                <div v-for="region in regions">
+                  <div class="row"><a class="type_value" target="_self" :href="'product/list?region_id=' + region.id">{{ region.name }}</a></div>
+                </div>
+              </div>
+              <div v-else>
+                <div class="row"><h2 class="type_key">产品</h2></div>
+                <div v-for="category in categories">
+                  <div class="row"><a class="type_value" target="_self" :href="'product/list?category_id=' + category.id">{{ category.name }}</a></div>
+                </div>
+              </div>
             </div>
 
-            <div v-for="region in regions">
-              <div class="row mt-2 mb-2">
-                <a :href="'product/list?region_id=' + region.id">{{ region.name }}</a>
+            <div id="right-block" class="col-6">
+              <div v-if="rands.index.arrangement">
+                <div class="row"><h2 class="type_key">产品</h2></div>
+                <div v-for="category in categories">
+                  <div class="row"><a class="type_value" target="_self" :href="'product/list?category_id=' + category.id">{{ category.name }}</a></div>
+                </div>
+              </div>
+              <div v-else>
+                <div class="row"><h2 class="type_key">原产地</h2></div>
+                <div v-for="region in regions">
+                  <div class="row"><a class="type_value" target="_self" :href="'product/list?region_id=' + region.id">{{ region.name }}</a></div>
+                </div>
               </div>
             </div>
           </div>
-
-          <br/><br/>
-          
-          <div class="products">
-            <div class="row mt-4 mb-4">
-              <h2>产品</h2>
-            </div>
-
-            <div v-for="category in categories">
-              <div class="row mt-2 mb-2">
-                <a :href="'product/list?category_id=' + category.id">{{ category.name }}</a>
-              </div>
-            </div>
-          </div>
-          
         </div>
     </div>
 </body>
@@ -59,11 +63,17 @@
     el: '#app',
     data: {
       regions: {},
-      categories: {}
+      categories: {},
+      rands: {}
     },
     created: function() {
-      this.regions = sync_get_data('../api/product/region');
-      this.categories = sync_get_data('../api/product/category');
+      this.regions = Object.values(sync_get_data('../api/product/region'));
+      this.categories = Object.values(sync_get_data('../api/product/category'));
+      this.rands = sync_get_data('../api/user/rand');
+
+      if (this.rands.index.region)   this.regions.reverse();
+      if (this.rands.index.category) this.categories.reverse();
+      console.log(this.rands);
     }
   });
 </script>

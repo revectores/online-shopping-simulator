@@ -1,3 +1,4 @@
+from random import randint
 from datetime import datetime, timedelta
 
 from flask import Blueprint, send_from_directory, jsonify, request, session, redirect, url_for
@@ -30,6 +31,17 @@ def api_login():
 	}).execute()
 
 	session['user_id'] = new_user_id
+	session['rands'] = {
+		'index': {
+			'arrangement': randint(0, 1),
+			'region':      randint(0, 1),
+			'category':    randint(0, 1)
+		},
+		'list': {
+			'region':   [randint(0, 1) for i in range(3)],
+			'category': [randint(0, 1) for i in range(3)],
+		}
+	}
 	return suc()
 
 
@@ -49,3 +61,8 @@ def api_logout():
 
 	export(user_id)
 	return suc()
+
+
+@user_api.route('/rand', methods=['GET'])
+def get_rand():
+	return suc(session['rands'])

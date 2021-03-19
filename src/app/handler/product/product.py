@@ -5,7 +5,7 @@ from playhouse.shortcuts import dict_to_model, model_to_dict
 
 from app.model import QueryType
 from app.model import Product, ProductRegion, ProductCategory, ProductImage
-from app.model import QueryLog, DetailLog, PurchaseLog
+from app.model import QueryLog, DetailLog, PurchaseLog, QueryBackLog, DetailBackLog
 from app.utils import models_to_dict
 from app.resp import suc, err
 
@@ -90,4 +90,25 @@ def purchase(product_id):
         'user_id':  session['user_id'],
         'product_id': product_id,
     }).execute()
+    return suc()
+
+
+@product_api.route('/back', methods=['POST'])
+def back():
+    pathname, query = request.json['pathname'], request.json['search'].removeprefix('?')
+
+    if request.json['pathname'] == '/product/list/':
+        query_key, query_id = query.split('=')
+        QueryBackLog.insert({
+            'user_id': session['user_id'],
+            'query_type': QueryType.REGION.value if query_key == 'region_id' else QueryType.CATEGORY.value,
+            'query_id': query_id
+        }).execute()
+    else:
+        product_id = pathname.split('/')[-1]
+        DetailBackLog.insert({
+            'user_id': session['user_id'],
+            'product_id': product_id
+        }).execute()
+
     return suc()

@@ -1,0 +1,18 @@
+.type_key {
+	margin: 50px auto;
+	font-size: 50px;
+}
+
+.type_value {
+	margin: 40px auto;
+	font-size: 30px;
+}
+
+body {
+	background-color: rgb(245, 246, 248);
+}
+
+#left-block {
+	border-right: dashed;
+	border-width: 1px;
+}
